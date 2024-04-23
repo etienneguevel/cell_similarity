@@ -1,0 +1,33 @@
+[project]
+name = "cell-similarity"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Etienne Guevel", email = "etienneguev@gmail.com" }
+]
+dependencies = [
+    "torch>=2.2.2",
+    "torchvision>=0.17.2",
+    "transformers>=4.40.0",
+    "timm>=0.9.16",
+    "matplotlib>=3.8.4",
+    "pandas>=2.2.2",
+    "numpy>=1.26.4",
+    "jupyterlab>=4.1.6",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cell_similarity"]
