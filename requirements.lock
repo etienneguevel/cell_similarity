@@ -40,6 +40,7 @@ charset-normalizer==3.3.2
     # via requests
 comm==0.2.2
     # via ipykernel
+    # via ipywidgets
 contourpy==1.2.1
     # via matplotlib
 cycler==0.12.1
@@ -84,6 +85,9 @@ ipykernel==6.29.4
     # via jupyterlab
 ipython==8.23.0
     # via ipykernel
+    # via ipywidgets
+ipywidgets==8.1.2
+    # via cell-similarity
 isoduration==20.11.0
     # via jsonschema
 jedi==0.19.1
@@ -95,6 +99,7 @@ jinja2==3.1.3
     # via nbconvert
     # via torch
 joblib==1.4.0
+    # via pynndescent
     # via scikit-learn
 json5==0.9.25
     # via jupyterlab-server
@@ -135,8 +140,13 @@ jupyterlab-pygments==0.3.0
     # via nbconvert
 jupyterlab-server==2.27.1
     # via jupyterlab
+jupyterlab-widgets==3.0.10
+    # via ipywidgets
 kiwisolver==1.4.5
     # via matplotlib
+llvmlite==0.42.0
+    # via numba
+    # via pynndescent
 markupsafe==2.1.5
     # via jinja2
     # via nbconvert
@@ -164,16 +174,21 @@ networkx==3.3
     # via torch
 notebook-shim==0.2.4
     # via jupyterlab
+numba==0.59.1
+    # via pynndescent
+    # via umap-learn
 numpy==1.26.4
     # via cell-similarity
     # via contourpy
     # via matplotlib
+    # via numba
     # via pandas
     # via scikit-learn
     # via scipy
     # via seaborn
     # via torchvision
     # via transformers
+    # via umap-learn
 nvidia-cublas-cu12==12.1.3.1
     # via nvidia-cudnn-cu12
     # via nvidia-cusolver-cu12
@@ -195,6 +210,8 @@ nvidia-cusolver-cu12==11.4.5.107
 nvidia-cusparse-cu12==12.1.0.106
     # via nvidia-cusolver-cu12
     # via torch
+nvidia-ml-py3==7.352.0
+    # via cell-similarity
 nvidia-nccl-cu12==2.19.3
     # via torch
 nvidia-nvjitlink-cu12==12.4.127
@@ -243,6 +260,8 @@ pycparser==2.22
 pygments==2.17.2
     # via ipython
     # via nbconvert
+pynndescent==0.5.12
+    # via umap-learn
 pyparsing==3.1.2
     # via matplotlib
 python-dateutil==2.9.0.post0
@@ -287,8 +306,12 @@ safetensors==0.4.3
     # via transformers
 scikit-learn==1.4.2
     # via cell-similarity
+    # via pynndescent
+    # via umap-learn
 scipy==1.13.0
+    # via pynndescent
     # via scikit-learn
+    # via umap-learn
 seaborn==0.13.2
     # via cell-similarity
 send2trash==1.8.3
@@ -334,10 +357,12 @@ tornado==6.4
 tqdm==4.66.2
     # via huggingface-hub
     # via transformers
+    # via umap-learn
 traitlets==5.14.3
     # via comm
     # via ipykernel
     # via ipython
+    # via ipywidgets
     # via jupyter-client
     # via jupyter-core
     # via jupyter-events
@@ -356,6 +381,8 @@ typing-extensions==4.11.0
     # via torch
 tzdata==2024.1
     # via pandas
+umap-learn==0.5.6
+    # via cell-similarity
 uri-template==1.3.0
     # via jsonschema
 urllib3==2.2.1
@@ -369,3 +396,5 @@ webencodings==0.5.1
     # via tinycss2
 websocket-client==1.7.0
     # via jupyter-server
+widgetsnbextension==4.0.10
+    # via ipywidgets
