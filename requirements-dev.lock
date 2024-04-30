@@ -94,6 +94,8 @@ jinja2==3.1.3
     # via jupyterlab-server
     # via nbconvert
     # via torch
+joblib==1.4.0
+    # via scikit-learn
 json5==0.9.25
     # via jupyterlab-server
 jsonpointer==2.4
@@ -140,6 +142,7 @@ markupsafe==2.1.5
     # via nbconvert
 matplotlib==3.8.4
     # via cell-similarity
+    # via seaborn
 matplotlib-inline==0.1.7
     # via ipykernel
     # via ipython
@@ -166,6 +169,9 @@ numpy==1.26.4
     # via contourpy
     # via matplotlib
     # via pandas
+    # via scikit-learn
+    # via scipy
+    # via seaborn
     # via torchvision
     # via transformers
 nvidia-cublas-cu12==12.1.3.1
@@ -209,6 +215,7 @@ packaging==24.0
     # via transformers
 pandas==2.2.2
     # via cell-similarity
+    # via seaborn
 pandocfilters==1.5.1
     # via nbconvert
 parso==0.8.4
@@ -278,6 +285,12 @@ rpds-py==0.18.0
 safetensors==0.4.3
     # via timm
     # via transformers
+scikit-learn==1.4.2
+    # via cell-similarity
+scipy==1.13.0
+    # via scikit-learn
+seaborn==0.13.2
+    # via cell-similarity
 send2trash==1.8.3
     # via jupyter-server
 six==1.16.0
@@ -297,6 +310,8 @@ sympy==1.12
 terminado==0.18.1
     # via jupyter-server
     # via jupyter-server-terminals
+threadpoolctl==3.4.0
+    # via scikit-learn
 timm==0.9.16
     # via cell-similarity
 tinycss2==1.3.0
