@@ -1,10 +1,12 @@
 from pynvml import *
 
-def print_gpu_utilization():
+def print_gpu_utilization(verbose=True):
     nvmlInit()
     handle = nvmlDeviceGetHandleByIndex(0)
     info = nvmlDeviceGetMemoryInfo(handle)
-    print(f"GPU memory occupied: {info.used//1024**2} MB.")
+    if verbose:
+        print(f"GPU memory occupied: {info.used//1024**2} MB.")
+    return info.used//1024**2
 
 
 def print_summary(result):
