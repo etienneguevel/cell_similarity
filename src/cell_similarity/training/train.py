@@ -4,11 +4,14 @@ import os
 import math
 from functools import partial
 
-from dinov2.distributed import distributed
+from fvcore.common.checkpoint import PeriodicCheckpointer
+
+import dinov2.distributed as distributed
 from dinov2.data import collate_data_and_cast, DataAugmentationDINO, MaskingGenerator
 from dinov2.data import SamplerType, make_data_loader
 from dinov2.train.train import build_schedulers, apply_optim_scheduler
 from dinov2.logging import MetricLogger
+from dinov2.fsdp import FSDPCheckpointer
 from cell_similarity.utils.memory import print_gpu_utilization
 from cell_similarity.data.loaders import make_dataset
 
@@ -19,7 +22,7 @@ def build_optimizer(cfg, params_groups):
     return torch.optim.AdamW(params_groups, betas=(cfg.optim.adamw_beta1, cfg.optim.adamw_beta2))
 
 
-def do_train(cfg, model):
+def do_train(cfg, model, resume=False):
     model.train()
     inputs_dtype = torch.half
     fp16_scaler = model.fp16_scaler  # for mixed precision training
@@ -33,7 +36,20 @@ def do_train(cfg, model):
         last_layer_lr_schedule,
     ) = build_schedulers(cfg)
 
-    num_epochs = cfg.train.num_epochs
+    # checkpointer
+    checkpointer = FSDPCheckpointer(model, cfg.train.output_dir, optimizer=optimizer, save_to_disk=True)
+
+    start_iter = checkpointer.resume_or_load(cfg.MODEL.WEIGHTS, resume=resume).get("iteration", -1) + 1
+
+    OFFICIAL_EPOCH_LENGTH = cfg.train.OFFICIAL_EPOCH_LENGTH
+    max_iter = cfg.optim.epochs * OFFICIAL_EPOCH_LENGTH
+
+    periodic_checkpointer = PeriodicCheckpointer(
+        checkpointer,
+        period=3 * OFFICIAL_EPOCH_LENGTH,
+        max_iter=max_iter,
+        max_to_keep=3,
+    )
 
     img_size = cfg.crops.global_crops_size
     patch_size = cfg.student.patch_size
@@ -92,9 +108,13 @@ def do_train(cfg, model):
         data_loader,
         10,
         header,
+        max_iter,
+        start_iter,
     ):
         current_batch_size = data["collated_global_crops"].shape[0] / 2
-               
+        if iteration > max_iter:
+            return
+        
         # apply schedules
 
         lr = lr_schedule[iteration]
