@@ -1,12 +1,27 @@
 import os
+
+import torch
 from functools import partial
 from pathlib import Path
 from cell_similarity.data.datasets import ImageDataset
 from dinov2.data import collate_data_and_cast, DataAugmentationDINO, MaskingGenerator
 from dinov2.data import SamplerType, make_data_loader, make_dataset
+from dinov2.train.ssl_meta_arch import SSLMetaArch
+from dinov2.utils.config import setup
+from dinov2.train.train import get_args_parser
 
-def test():
+def test(args):
     
+    cfg = setup(args)
+    img_size = cfg.crops.global_crops_size
+    patch_size = cfg.student.patch_size
+    n_tokens = (img_size // patch_size) ** 2
+    mask_generator = MaskingGenerator(
+        input_size=(img_size // patch_size, img_size // patch_size),
+        max_num_patches=0.5 * img_size // patch_size * img_size // patch_size
+    )
+    inputs_dtype = torch.half
+
     data_transform = DataAugmentationDINO(
         cfg.crops.global_crops_scale,
         cfg.crops.local_crops_scale,
@@ -41,7 +56,7 @@ def test():
     
     for i in data_loader:
         assert len(i) == cfg.train.batch_size_per_gpu
-        break
-
+    
 if __name__ == '__main__':
-    test()
+    args = get_args_parser(add_help=True).parse_args()
+    test(args)
