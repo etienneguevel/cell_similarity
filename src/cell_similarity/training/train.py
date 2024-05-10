@@ -7,13 +7,14 @@ from functools import partial
 from fvcore.common.checkpoint import PeriodicCheckpointer
 
 import dinov2.distributed as distributed
-from dinov2.data import collate_data_and_cast, DataAugmentationDINO, MaskingGenerator
+from dinov2.data import DataAugmentationDINO, MaskingGenerator
 from dinov2.data import SamplerType, make_data_loader
 from dinov2.train.train import build_schedulers, apply_optim_scheduler
 from dinov2.logging import MetricLogger
 from dinov2.fsdp import FSDPCheckpointer
 from cell_similarity.utils.memory import print_gpu_utilization
 from cell_similarity.data.loaders import make_dataset
+from cell_similarity.data.collate import collate_data_and_cast
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 logger = logging.getLogger("dinov2")

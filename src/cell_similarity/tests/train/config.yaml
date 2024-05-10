@@ -64,7 +64,7 @@ train:
   output_dir: /home/guevel/OT4D/cell_similarity/src/cell_similarity/tests/train
   saveckp_freq: 20
   seed: 0
-  num_workers: 10
+  num_workers: 4
   OFFICIAL_EPOCH_LENGTH: 1
   cache_dataset: true
   centering: centering

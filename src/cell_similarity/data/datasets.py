@@ -1,4 +1,5 @@
 import os
+import sys
 from torch.utils.data import Dataset
 from PIL import Image
 
@@ -10,7 +11,28 @@ class ImageDataset(Dataset):
 
     def _get_image_list(self):
         images = []
-        for root, _, files in os.walk(self.root):
+
+        if type(self.root) == list:
+            for p in self.root:
+                try:
+                    images.extend(self._retrieve_images(p))
+                
+                except OSError:
+                    print(f"the path indicated at {p} cannot be found.")
+
+        else:
+            try:
+                images.extend(self._retrieve_images(self.root))
+
+            except OSError:
+                print("The root given is nor a list nor a path")
+            
+       
+        return images
+    
+    def _retrieve_images(self, path):
+        images = []
+        for root, _, files in os.walk(path):
             for file in files:
                 if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
                     try:
@@ -19,9 +41,9 @@ class ImageDataset(Dataset):
                     
                     except OSError:
                         print(f"Image at path {os.path.join(root, file)} could not be opened.")
-
+ 
         return images
-    
+
     def __len__(self):
         return len(self.images_list)
     
@@ -33,4 +55,3 @@ class ImageDataset(Dataset):
             image = self.transform(image)
 
         return image
-    
