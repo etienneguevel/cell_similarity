@@ -4,4 +4,5 @@ train:
   OFFICIAL_EPOCH_LENGTH: 1
   num_workers: 4
 student:
+  arch: vit_large
   block_chunks: 4
