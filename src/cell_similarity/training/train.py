@@ -50,7 +50,7 @@ def do_train(cfg, model, resume=False):
         checkpointer,
         period=10 * OFFICIAL_EPOCH_LENGTH,
         max_iter=max_iter,
-        max_to_keep=3,
+        max_to_keep=1,
     )
     print('checkpointer path : {}'.format(checkpointer.save_dir), 'periodic_checkpointer path : {}'.format(periodic_checkpointer.checkpointer.save_dir))
     img_size = cfg.crops.global_crops_size

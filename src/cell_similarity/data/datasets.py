@@ -29,17 +29,20 @@ class ImageDataset(Dataset):
        
         return images
     
-    def _retrieve_images(self, path):
+    def _retrieve_images(self, path, is_valid=False):
         images = []
         for root, _, files in os.walk(path):
             for file in files:
                 if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
-                    try:
-                        Image.open(os.path.join(root, file))
+                    if is_valid:
+                        try:
+                            Image.open(os.path.join(root, file))
+                            images.append(os.path.join(root, file))
+                        
+                        except OSError:
+                            print(f"Image at path {os.path.join(root, file)} could not be opened.")
+                    else:
                         images.append(os.path.join(root, file))
-                    
-                    except OSError:
-                        print(f"Image at path {os.path.join(root, file)} could not be opened.")
  
         return images
 
