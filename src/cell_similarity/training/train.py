@@ -7,11 +7,12 @@ from functools import partial
 from fvcore.common.checkpoint import PeriodicCheckpointer
 
 import dinov2.distributed as distributed
-from dinov2.data import DataAugmentationDINO, MaskingGenerator
-from dinov2.data import SamplerType, make_data_loader
-from dinov2.train.train import build_schedulers, apply_optim_scheduler
+from dinov2.data import DataAugmentationDINO, MaskingGenerator, SamplerType, make_data_loader
+from dinov2.train.train import build_schedulers, apply_optim_scheduler, get_args_parser
 from dinov2.logging import MetricLogger
 from dinov2.fsdp import FSDPCheckpointer
+from dinov2.utils.config import setup
+from dinov2.train.ssl_meta_arch import SSLMetaArch
 from cell_similarity.utils.memory import print_gpu_utilization
 from cell_similarity.data.loaders import make_dataset
 from cell_similarity.data.collate import collate_data_and_cast
@@ -78,6 +79,7 @@ def do_train(cfg, model, resume=False):
     )
 
     # setup data loader
+    print(cfg.train.dataset_path, type(cfg.train.dataset_path))
 
     dataset = make_dataset(
         dataset_path=cfg.train.dataset_path,
@@ -98,7 +100,7 @@ def do_train(cfg, model, resume=False):
 
     if device == "cuda": 
         memoryused = print_gpu_utilization()
-
+    print("There are {} images in the dataset used".format(dataset.__len__()))
     iteration=0
     metrics_file = os.path.join(cfg.train.output_dir, "training_metrics.json")
     metric_logger = MetricLogger(delimiter="  ", output_file=metrics_file)
@@ -175,3 +177,15 @@ def do_train(cfg, model, resume=False):
         iteration = iteration + 1
     metric_logger.synchronize_between_processes()
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+
+def main(args):
+    cfg = setup(args)
+    model = SSLMetaArch(cfg).to(torch.device("cuda"))
+    model.prepare_for_distributed_training()
+
+    logger.info("Model:\n{}".format(model))
+    do_train(cfg, model, resume=not args.no_resume)
+
+if __name__ == "__main__":
+    args = get_args_parser(add_help=True).parse_args()
+    main(args)

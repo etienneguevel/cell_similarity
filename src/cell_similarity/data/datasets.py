@@ -12,21 +12,20 @@ class ImageDataset(Dataset):
     def _get_image_list(self):
         images = []
 
-        if type(self.root) == list:
+        if type(self.root) == str:
+            try:
+                images.extend(self._retrieve_images(self.root))
+
+            except OSError:
+                print("The root given is nor a list nor a path")
+
+        else:
             for p in self.root:
                 try:
                     images.extend(self._retrieve_images(p))
                 
                 except OSError:
                     print(f"the path indicated at {p} cannot be found.")
-
-        else:
-            try:
-                images.extend(self._retrieve_images(self.root))
-
-            except OSError:
-                print("The root given is nor a list nor a path")
-            
        
         return images
     
