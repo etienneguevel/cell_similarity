@@ -1,5 +1,7 @@
 import os
 import sys
+import pathlib
+
 from torch.utils.data import Dataset
 from PIL import Image
 
@@ -12,7 +14,7 @@ class ImageDataset(Dataset):
     def _get_image_list(self):
         images = []
 
-        if type(self.root) == str:
+        if isinstance(self.root, (str, pathlib.PosixPath)):
             try:
                 images.extend(self._retrieve_images(self.root))
 
