@@ -34,7 +34,11 @@ class LinearClassifier(L.LightningModule):
         z = self.forward(x)
 
         loss = nn.functional.cross_entropy(z, y)
-        self.log("train loss", loss)
+        self.log("train loss", loss, prog_bar=True, on_step=False, on_epoch=True)
+
+        _, preds = torch.max(z, 1)
+        acc = torch.sum(y == preds) / len(y)
+        self.log("train_accuracy", acc, prog_bar=True, on_step=False, on_epoch=True)
 
         return loss
     
@@ -43,7 +47,11 @@ class LinearClassifier(L.LightningModule):
         z = self.forward(x)
 
         val_loss = nn.functional.cross_entropy(z, y)
-        self.log("val_loss", val_loss)
+        self.log("val_loss", val_loss, prog_bar=True)
+
+        _, preds = torch.max(z, 1)
+        acc = torch.sum(y == preds) / len(y)
+        self.log("val_accuracy", acc, prog_bar=True)
     
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
