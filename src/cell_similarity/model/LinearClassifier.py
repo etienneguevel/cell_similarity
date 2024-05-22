@@ -38,7 +38,7 @@ class LinearClassifier(L.LightningModule):
 
         return loss
     
-    def validation_step(self, batch, bathc_idx):
+    def validation_step(self, batch, batch_idx):
         x, y = batch
         z = self.forward(x)
 

@@ -12,9 +12,8 @@ def get_args_parser(add_help: bool = True):
 
     return parser
 
-def main(args):
+def main(cfg):
 
-    cfg = setup(args)
     # make the datasets & dataloaders
     datasets = make_datasets(cfg.train.dataset_path)
     dataloaders = make_dataloaders(datasets, batch_size=cfg.train.batch_size)
@@ -40,4 +39,5 @@ def main(args):
 
 if __name__ == "__main__":
     args = get_args_parser(add_help=True).parse_args()
-    main(args)
+    cfg = setup(args)
+    main(cfg)
