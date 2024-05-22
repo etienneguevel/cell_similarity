@@ -11,6 +11,6 @@ wheels/
 
 # datafiles
 
-datasets/
+dataset_folders/
 *.pt
 *.pth
