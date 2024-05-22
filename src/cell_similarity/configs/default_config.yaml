@@ -10,7 +10,7 @@ model:
 
 encoder:
   type: dinov2
-  rch: vit_large
+  arch: vit_large
   patch_size: 16
   drop_path_rate: 0.3
   layerscale: 1.0e-05

@@ -11,8 +11,9 @@ def make_datasets(
         val_split: float = 0.1, 
         test_split: float = 0.1,
 ):
-
-    _ = [[os.path.basename(dirpath), os.path.join(dirpath, i)] for dirpath, _, im in os.walk(root) for i in im if i.endswith(('.jpg', '.png', '.jpeg'))]
+    
+    ignore_list = ['.ipynb_checkpoints']
+    _ = [[os.path.basename(dirpath), os.path.join(dirpath, i)] for dirpath, _, im in os.walk(root) for i in im if (i.endswith(('.jpg', '.png', '.jpeg')))&(os.path.basename(dirpath) not in ignore_list)]
     targets_list = [temp[0] for temp in _]
     images_list = [temp[1] for temp in _]
     target_dict = {k: i for i, k in enumerate(os.listdir(root))}

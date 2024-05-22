@@ -1,5 +1,5 @@
 train:
-  dataset_path: /home/manon/classification/data/Single_cells/medhi
+  dataset_path: /home/manon/classification/data/Single_cells/barcelona
   output_dir: /home/guevel/OT4D/cell_similarity/logs
   batch_size_per_gpu: 32
   OFFICIAL_EPOCH_LENGTH: 10

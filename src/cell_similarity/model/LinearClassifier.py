@@ -24,7 +24,7 @@ class LinearClassifier(L.LightningModule):
         )
     
     def forward(self, x):
-        cls = self.encoder(x)[0]
+        cls = self.encoder(x)
         z = self.projection(cls)
 
         return z
@@ -33,16 +33,16 @@ class LinearClassifier(L.LightningModule):
         x, y = batch
         z = self.forward(x)
 
-        loss = nn.CrossEntropyLoss(z, y)
+        loss = nn.functional.cross_entropy(z, y)
         self.log("train loss", loss)
 
         return loss
     
-    def validation_step(self, batch, bathc_idx):
+    def validation_step(self, batch, batch_idx):
         x, y = batch
         z = self.forward(x)
 
-        val_loss = nn.CrossEntropyLoss(z, y)
+        val_loss = nn.functional.cross_entropy(z, y)
         self.log("val_loss", val_loss)
     
     def configure_optimizers(self):
