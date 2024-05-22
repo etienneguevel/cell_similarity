@@ -24,3 +24,4 @@ encoder:
   num_register_tokens: 0
   interpolate_antialias: false
   interpolate_offset: 0.1
+

@@ -30,10 +30,11 @@ def test_run_encoder():
     
     batch = batch.to('cuda')
     emb = encoder(batch)
-    print(emb.shape)
+    
     assert emb.shape[-1] == encoder.embed_dim
 
 if __name__ == '__main__':
     test_build_encoder()
     test_run_encoder()
+
 

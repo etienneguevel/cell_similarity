@@ -18,6 +18,7 @@ def get_args_parser(add_help: bool = True):
 def main(cfg):
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
+
     # make the datasets & dataloaders
     datasets = make_datasets(cfg.train.dataset_path)
     dataloaders = make_dataloaders(datasets, batch_size=cfg.train.batch_size)

@@ -20,6 +20,7 @@ class CustomDataset(Dataset):
 
         return class_id
 
+
     def get_image_data(self, index: int):
         path = self.images_list[index]
         with open(path, 'rb') as f:
