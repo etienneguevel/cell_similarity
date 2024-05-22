@@ -54,7 +54,7 @@ class LinearClassifier(L.LightningModule):
         self.log("val_accuracy", acc, prog_bar=True)
     
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
+        optimizer = torch.optim.AdamW(self.projection.parameters(), lr=1e-3)
         
         return optimizer
     
