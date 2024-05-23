@@ -1,11 +1,15 @@
+preprocess:
+  dataset_path: /home/manon/classification/data/Single_cells/barcelona
+  cache_path: /home/guevel/OT4D/cell_similarity/projection/cache
+  batch_size: 128
+
 train:
   batch_size: 64
-  dataset_path: /home/etienneguevel/Documents/SCAI/OT4D/cell_similarity/datasets/PBC_dataset_normal_DIB
-  num_epochs: 10
-  output_dir: /home/etienneguevel/Documents/SCAI/OT4D/cell_similarity/outputs
+  output_dir: /home/guevel/OT4D/cell_similarity/projection/model
+  max_epochs: 2000000
 
 model:
-  lr: 1e-4
+  lr: 1e-3
   momemtum: 0.9
 
 encoder:
