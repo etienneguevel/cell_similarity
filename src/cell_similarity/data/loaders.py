@@ -32,9 +32,10 @@ def make_datasets(
 def make_dataloaders(
         datasets: List[Dataset],
         batch_size: int,
+        num_workers: int=4
 ):
     dataloaders = {
-        x: DataLoader(datasets[x], batch_size=batch_size, shuffle=(x=="train")) for x in ["train", "validation", "test"]
+        x: DataLoader(datasets[x], batch_size=batch_size, shuffle=(x=="train"), num_workers=num_workers) for x in ["train", "validation", "test"]
     }
 
     return dataloaders

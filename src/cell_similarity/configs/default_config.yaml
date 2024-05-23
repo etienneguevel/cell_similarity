@@ -6,11 +6,12 @@ preprocess:
 train:
   batch_size: 64
   output_dir: /home/guevel/OT4D/cell_similarity/projection/model
-  max_epochs: 2000000
+  max_epochs: 20000
+  num_workers: 10
 
 model:
   lr: 1e-3
-  momemtum: 0.9
+  momentum: 0.9
 
 encoder:
   type: dinov2

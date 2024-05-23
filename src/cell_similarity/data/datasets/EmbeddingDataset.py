@@ -7,7 +7,7 @@ class EmbeddingDataset(Dataset):
 
     def __init__(self, root: str):
         self.data = torch.load(os.path.join(root, 'embeddings.pt'))
-        self.labels = torch.load(os.path.join(root / 'labels.pt'))
+        self.labels = torch.load(os.path.join(root, 'labels.pt'))
 
     def __len__(self):
 

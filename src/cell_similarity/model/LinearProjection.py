@@ -36,7 +36,7 @@ class LinearProjection(L.LightningModule):
                 # Clamp to minimum learning rate
                 return max(lr, self.min_lr / self.lr)
         
-        self.lr_scheduler = lr_lambda
+        return lr_lambda
 
     def forward(self, x):
         z = self.model(x)

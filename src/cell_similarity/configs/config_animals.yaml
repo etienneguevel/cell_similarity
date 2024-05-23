@@ -1,0 +1,8 @@
+train:
+  dataset_path: /home/guevel/data/animals10
+  output_dir: /home/guevel/OT4D/cell_similarity/logs
+  batch_size_per_gpu: 32
+  OFFICIAL_EPOCH_LENGTH: 10
+student:
+  arch: vit_large
+  block_chunks: 4
