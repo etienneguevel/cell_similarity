@@ -5,9 +5,9 @@ from torch.utils.data import Dataset
 
 class EmbeddingDataset(Dataset):
 
-    def __init__(self, root: str):
-        self.data = torch.load(os.path.join(root, 'embeddings.pt'))
-        self.labels = torch.load(os.path.join(root, 'labels.pt'))
+    def __init__(self, root: str, device:str="cpu"):
+        self.data = torch.load(os.path.join(root, 'embeddings.pt'), map_location=torch.device(device))
+        self.labels = torch.load(os.path.join(root, 'labels.pt'), map_location=torch.device(device))
 
     def __len__(self):
 
