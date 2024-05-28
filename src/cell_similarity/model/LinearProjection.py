@@ -3,7 +3,7 @@ import torch.nn as nn
 import lightning as L
 
 class LinearProjection(L.LightningModule):
-    def __init__(self, embedding_size, num_classes:int, lr:float=1e-3, gamma:float=0.9996, momentum:float=0.9, warmup_epochs:int=100, min_lr:float=1e-6):
+    def __init__(self, embedding_size, num_classes:int, lr:float=1e-3, gamma:float=0.1, momentum:float=0.9, warmup_epochs:int=100, min_lr:float=1e-6):
         super().__init__()
         self.num_classes = num_classes
         self.embedding_size = embedding_size
@@ -69,6 +69,6 @@ class LinearProjection(L.LightningModule):
     
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
-        lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, self.lr_scheduler)
+        lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=self.gamma)
 
         return [optimizer], [lr_scheduler]
