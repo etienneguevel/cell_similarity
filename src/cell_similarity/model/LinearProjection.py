@@ -46,11 +46,11 @@ class LinearProjection(L.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch
         z = self.forward(x)
+        _, preds = torch.max(z, 1)
 
-        loss = nn.functional.cross_entropy(z, y)
+        loss = nn.functional.cross_entropy(preds, y)
         self.log("train_loss", loss, prog_bar=True, on_step=False, on_epoch=True)
 
-        _, preds = torch.max(z, 1)
         acc = torch.sum(y == preds) / len(y)
         self.log("train_accuracy", acc, prog_bar=True, on_step=False, on_epoch=True)
 
@@ -59,11 +59,11 @@ class LinearProjection(L.LightningModule):
     def validation_step(self, batch, batch_idx):
         x, y = batch
         z = self.forward(x)
+        _, preds = torch.max(z, 1)
 
-        val_loss = nn.functional.cross_entropy(z, y)
+        val_loss = nn.functional.cross_entropy(preds, y)
         self.log("val_loss", val_loss, prog_bar=True)
 
-        _, preds = torch.max(z, 1)
         acc = torch.sum(y == preds) / len(y)
         self.log("val_accuracy", acc, prog_bar=True)
     
