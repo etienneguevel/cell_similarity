@@ -20,6 +20,7 @@ class LinearProjection(L.LightningModule):
 
         return nn.Sequential(
             nn.Linear(self.embedding_size, self.embedding_size),
+            nn.LayerNorm(self.embedding_size),
             nn.ReLU(),
             nn.Linear(self.embedding_size, self.num_classes),
             # nn.Softmax()
@@ -68,7 +69,7 @@ class LinearProjection(L.LightningModule):
         self.log("val_accuracy", acc, prog_bar=True)
     
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
+        optimizer = torch.optim.SGD(self.parameters(), lr=self.lr, momentum=self.momentum)
         lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=self.gamma)
 
         return [optimizer], [lr_scheduler]
