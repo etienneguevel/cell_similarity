@@ -22,7 +22,7 @@ class LinearProjection(L.LightningModule):
             nn.Linear(self.embedding_size, self.embedding_size),
             nn.ReLU(),
             nn.Linear(self.embedding_size, self.num_classes),
-            nn.Softmax()
+            # nn.Softmax()
         )
     
     def _build_lr_scheduler(self):
